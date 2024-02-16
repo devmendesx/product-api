@@ -1,0 +1,21 @@
+version: '3.8'
+
+networks:
+  productapi:
+    external: true
+
+services:
+  productdb:
+    image: postgres:14.1-alpine
+    container_name: productdb
+    restart: always
+    environment:
+      - POSTGRES_USER=productadmin
+      - POSTGRES_PASSWORD=productadmin
+    ports:
+      - '5432:5432'
+    networks:
+      - productapi
+    volumes:
+      - ./docker/database/data:/var/lib/postgresql/data
+      - ./docker/database/init.sql:/docker-entrypoint-initdb.d/init.sql
